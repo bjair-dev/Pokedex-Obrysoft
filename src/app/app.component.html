@@ -32,22 +32,58 @@
             <div id="circle3" style="margin-right: 20px"></div>
             <div id="circle3" style="margin-left: 20px"></div>
           </div>
-          <div id="screen">
-            <div id="picture-row" *ngIf="Default">
-              <img id="picture" [src]="dataPokemon.sprites.front_default" />
+          <div
+            id="screen"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-content: space-around;
+              justify-content: space-between;
+            "
+          >
+            <div id="picture-row" *ngIf="loading">
+              <img id="picture2" src="../assets/pikachu-running.gif" />
             </div>
-            <div id="picture-row" *ngIf="Shiny">
-              <img id="picture" [src]="dataPokemon.sprites.front_shiny" />
-            </div>
-            <div id="picture-row" *ngIf="Default2">
-              <img id="picture" [src]="dataPokemon.sprites.back_default" />
-            </div>
-            <div id="picture-row" *ngIf="Shiny2">
-              <img id="picture" [src]="dataPokemon.sprites.back_shiny" />
-            </div>
+            <div *ngIf="!loading">
+              <div *ngIf="!normal">
+                <div id="picture-row" *ngIf="Default">
+                  <img
+                    id="picture"
+                    [src]="
+                      dataPokemon.sprites.versions[d][c].animated.front_default
+                    "
+                  />
+                </div>
 
+                <div id="picture-row" *ngIf="Default2">
+                  <img
+                    id="picture"
+                    [src]="
+                      dataPokemon.sprites.versions[d][c].animated.back_default
+                    "
+                  />
+                </div>
+              </div>
+              <div *ngIf="normal">
+                <div id="picture-row" *ngIf="Shiny">
+                  <img
+                    id="picture"
+                    [src]="
+                      dataPokemon.sprites.versions[d][c].animated.front_shiny
+                    "
+                  />
+                </div>
 
-
+                <div id="picture-row" *ngIf="Shiny2">
+                  <img
+                    id="picture"
+                    [src]="
+                      dataPokemon.sprites.versions[d][c].animated.back_shiny
+                    "
+                  />
+                </div>
+              </div>
+            </div>
             <div id="screen-row-info">
               <div id="number-pokemon">
                 {{ variablezero }}{{ dataPokemon.id }}
@@ -113,7 +149,9 @@
       </div>
       <div id="name-row">
         <div id="name-container">
-          <div id="name-screen">{{ dataPokemon.name }}</div>
+          <div id="name-screen" *ngIf="!loading">{{ dataPokemon.name }}</div>
+          <div id="name-screen" *ngIf="loading">Cargando...</div>
+
           <div id="buttons-container">
             <div id="button-red" (click)="clickNormalColor()">
               <div
@@ -154,46 +192,26 @@
     </div>
     <div id="pokedex-right">
       <div id="screen-description-row">
-        <div id="screen-description" >
-          <a *ngIf="llegaInfo">{{infoDetallada}}</a>
-          <a *ngIf="busqueda">Buscar pokemon:{{valorPokemon}} </a>
+        <div id="screen-description">
+          <a *ngIf="llegaInfo">{{ infoDetallada }}</a>
+          <a *ngIf="busqueda">Buscar pokemon:{{ valorPokemon }} </a>
           <a *ngIf="cargandoBusqueda">Cargando....</a>
         </div>
       </div>
       <div id="numbers-buttons-row">
-       <!--  <div id="button-0" (click)="numClick(0)" class="number-button">
+        <!--  <div id="button-0" (click)="numClick(0)" class="number-button">
           0
         </div> -->
-        <div id="button-1" (click)="numClick(1)" class="number-button">
-          1
-        </div>
-        <div id="button-2" (click)="numClick(2)" class="number-button">
-          2
-        </div>
-        <div id="button-3" (click)="numClick(3)" class="number-button">
-          3
-        </div>
-        <div id="button-4" (click)="numClick(4)" class="number-button">
-          4
-        </div>
-        <div id="button-5" (click)="numClick(5)" class="number-button">
-          5
-        </div>
-        <div id="button-6" (click)="numClick(6)" class="number-button">
-          6
-        </div>
-        <div id="button-7" (click)="numClick(7)" class="number-button">
-          7
-        </div>
-        <div id="button-8" (click)="numClick(8)" class="number-button">
-          8
-        </div>
-        <div id="button-9" (click)="numClick(9)" class="number-button">
-          9
-        </div>
-        <div id="button-0" (click)="numClick(0)" class="number-button">
-          0
-        </div>
+        <div id="button-1" (click)="numClick(1)" class="number-button">1</div>
+        <div id="button-2" (click)="numClick(2)" class="number-button">2</div>
+        <div id="button-3" (click)="numClick(3)" class="number-button">3</div>
+        <div id="button-4" (click)="numClick(4)" class="number-button">4</div>
+        <div id="button-5" (click)="numClick(5)" class="number-button">5</div>
+        <div id="button-6" (click)="numClick(6)" class="number-button">6</div>
+        <div id="button-7" (click)="numClick(7)" class="number-button">7</div>
+        <div id="button-8" (click)="numClick(8)" class="number-button">8</div>
+        <div id="button-9" (click)="numClick(9)" class="number-button">9</div>
+        <div id="button-0" (click)="numClick(0)" class="number-button">0</div>
       </div>
       <div id="decoration-buttons">
         <div id="deco-button"></div>
@@ -201,35 +219,200 @@
       </div>
       <div id="types-row">
         <div id="types-container">
+          <div
+            id="type-box"
+            *ngFor="let item of tipoPokemon"
+            style="border-right: none"
+          >
+            <img
+              *ngIf="item.type.name == 'grass'"
+              id="type1"
+              class="type-pokemon"
+              src="../assets/types/planta.png"
+            />
+
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'poison'"
+              class="type-pokemon"
+              src="../assets/types/veneno.png"
+            />
+
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'fire'"
+              class="type-pokemon"
+              src="../assets/types/fuego.png"
+            />
+
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'water'"
+              class="type-pokemon"
+              src="../assets/types/agua.png"
+            />
+
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'flying'"
+              class="type-pokemon"
+              src="../assets/types/volador.png"
+            />
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'bug'"
+              class="type-pokemon"
+              src="../assets/types/bicho.png"
+            />
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'normal'"
+              class="type-pokemon"
+              src="../assets/types/normal.png"
+            />
+
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'dragon'"
+              class="type-pokemon"
+              src="../assets/types/dragon.png"
+            />
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'rock'"
+              class="type-pokemon"
+              src="../assets/types/roca.png"
+            />
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'psychic'"
+              class="type-pokemon"
+              src="../assets/types/psiquico.png"
+            />
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'ghost'"
+              class="type-pokemon"
+              src="../assets/types/fantasma.png"
+            />
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'ice'"
+              class="type-pokemon"
+              src="../assets/types/hielio.png"
+            />
+
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'fairy'"
+              class="type-pokemon"
+              src="../assets/types/hada.png"
+            />
+
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'fighting'"
+              class="type-pokemon"
+              src="../assets/types/lucha.png"
+            />
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'steel'"
+              class="type-pokemon"
+              src="../assets/types/acero.png"
+            />
+
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'electric'"
+              class="type-pokemon"
+              src="../assets/types/electrico.png"
+            />
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'ground'"
+              class="type-pokemon"
+              src="../assets/types/tierra.png"
+            />
+
+            <img
+              id="type1"
+              *ngIf="item.type.name == 'dark'"
+              class="type-pokemon"
+              src="../assets/types/siniestro.png"
+            />
+
+            <img
+              id="type1"
+              *ngIf="item.type.name == null"
+              class="type-pokemon"
+              src="../assets/types/desconocido.png"
+            />
+          </div>
+          <!--  <div id="type-box" style="border-right: none">
+            <img
+              id="type1"
+              class="type-pokemon"
+              src="../assets/types/veneno.png"
+            />
+          </div>
+
           <div id="type-box" style="border-right: none">
             <img
               id="type1"
               class="type-pokemon"
-              src="https://cdn2.bulbagarden.net/upload/7/74/GrassIC_Big.png"
+              src="../assets/types/fuego.png"
             />
-          </div>
-          <div id="type-box">
-            <img
-              id="type2"
-              class="type-pokemon"
-              src="https://cdn2.bulbagarden.net/upload/3/3d/PoisonIC_Big.png "
-            />
-          </div>
+          </div> -->
         </div>
-        <div (click)="ponerPlay()" *ngIf="estaPlay" style="cursor: pointer;    display: flex;
-        justify-content: center;
-        align-items: center;"  id="deco-light">Play</div>
-        <div (click)="detener()" *ngIf="estaStop" style="cursor: pointer;    display: flex;
-        justify-content: center;
-        align-items: center;" id="deco-light">Stop</div>
-
+        <div
+          (click)="ponerPlay()"
+          *ngIf="estaPlay"
+          style="
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          "
+          id="deco-light"
+        >
+          Play
+        </div>
+        <div
+          (click)="detener()"
+          *ngIf="estaStop"
+          style="
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          "
+          id="deco-light"
+        >
+          Stop
+        </div>
       </div>
       <div id="extra-info-pokemon-row">
-        <div class="extra-info-screen" id="extra-info-screen-1">
-          Altura: {{ alturaPokemon}} m
+        <div
+          *ngIf="!loading"
+          class="extra-info-screen"
+          id="extra-info-screen-1"
+        >
+          Altura: {{ alturaPokemon }} m
         </div>
-        <div class="extra-info-screen" id="extra-info-screen-2">
+
+        <div class="extra-info-screen" id="extra-info-screen-2" *ngIf="loading">
+          Cargando...
+        </div>
+        <div
+          *ngIf="!loading"
+          class="extra-info-screen"
+          id="extra-info-screen-2"
+        >
           Peso: {{ pesoPokemon }} kg
+        </div>
+        <div class="extra-info-screen" id="extra-info-screen-2" *ngIf="loading">
+          Cargando...
         </div>
       </div>
     </div>

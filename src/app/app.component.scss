@@ -193,7 +193,9 @@ select {
   align-items: center;
 }
 #screen {
+  background: url(../assets/grass.png);
   background-color: #232323;
+  border: 1px solid black;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -203,10 +205,15 @@ select {
 #picture-row {
   display: flex;
   justify-content: center;
+  margin-top: 50px;
 }
 #picture {
-  height: 230px;
-  width: 250px;
+  height: 113px;
+  width: 109px;
+}
+#picture2 {
+  height: 61px;
+  width: 96px;
 }
 #screen-row-info {
   height: 20px;
@@ -596,8 +603,9 @@ div#botcross:active div#downT {
   border: 2px solid #000000;
 }
 .type-pokemon {
-  width: 48px;
-  height: 16px;
+  width: 67px;
+  height: 21px;
+  object-fit: contain;
 }
 #extra-info-pokemon-row {
   display: flex;
